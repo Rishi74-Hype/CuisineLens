@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with nutrition targets, regional cuisine specialization, and membership status",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "goal": { "type": "string", "enum": ["lose", "maintain", "gain"] },
+        "currentWeightKg": { "type": "number" },
+        "targetWeightKg": { "type": "number" },
+        "heightCm": { "type": "number" },
+        "age": { "type": "number" },
+        "gender": { "type": "string" },
+        "activityLevel": { "type": "string" },
+        "cuisineFocus": { "type": "string" },
+        "targetCalories": { "type": "number" },
+        "targetProtein": { "type": "number" },
+        "targetCarbs": { "type": "number" },
+        "targetFat": { "type": "number" },
+        "waterGoalGlasses": { "type": "number" },
+        "isPro": { "type": "boolean" },
+        "dailyScansUsed": { "type": "number" },
+        "isOnboarded": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "targetCalories"]
+    },
+    "MealLog": {
+      "title": "MealLog",
+      "description": "Individual authentic regional meal logged by the user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "dishName": { "type": "string" },
+        "nativeName": { "type": "string" },
+        "cuisine": { "type": "string" },
+        "mealType": { "type": "string", "enum": ["Breakfast", "Lunch", "Dinner", "Snack"] },
+        "portion": { "type": "string", "enum": ["Small", "Medium", "Large"] },
+        "grams": { "type": "number" },
+        "calories": { "type": "number" },
+        "protein": { "type": "number" },
+        "carbs": { "type": "number" },
+        "fat": { "type": "number" },
+        "fiber": { "type": "number" },
+        "sodium": { "type": "number" },
+        "cookingFat": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "confidenceScore": { "type": "number" },
+        "regionalNutritionNote": { "type": "string" },
+        "loggedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "dishName", "calories", "loggedAt"]
+    },
+    "WaterLog": {
+      "title": "WaterLog",
+      "description": "Daily hydration record for a user",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string" },
+        "userId": { "type": "string" },
+        "glasses": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["date", "userId", "glasses"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document containing body metrics and calorie targets"
+    },
+    "/users/{userId}/meals/{mealId}": {
+      "schema": "MealLog",
+      "description": "Subcollection of meal records logged by the user"
+    },
+    "/users/{userId}/waterLogs/{date}": {
+      "schema": "WaterLog",
+      "description": "Subcollection of daily hydration logs keyed by date (YYYY-MM-DD)"
+    }
+  }
+}
